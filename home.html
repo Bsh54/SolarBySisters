@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarBySisters - Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables for Color Palette */
+        :root {
+            --dark-green: #0F3E2A;
+            --solar-orange: #F47C20;
+            --golden-yellow: #F2B134;
+            --light-cream: #F8F0DF;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --medium-gray: #777777;
+            --border-radius: 16px;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-cream);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            padding-bottom: 80px; /* Space for bottom nav */
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Page Styles */
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 20px 0;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Logo Styles */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background-color: var(--light-cream);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(15, 62, 42, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .sun {
+            width: 50px;
+            height: 50px;
+            background-color: var(--solar-orange);
+            border-radius: 50%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .sun::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, var(--solar-orange) 0%, rgba(244, 124, 32, 0.3) 70%, transparent 100%);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .woman-silhouette {
+            position: absolute;
+            width: 65px;
+            height: 90px;
+            background-color: var(--dark-green);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 50% 80%, 0% 100%);
+            z-index: 3;
+            bottom: 15px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-green);
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 24px;
+            background-color: var(--dark-green);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(15, 62, 42, 0.2);
+            width: 100%;
+            gap: 8px;
+        }
+
+        .btn:hover, .btn:active {
+            background-color: var(--solar-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(244, 124, 32, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--golden-yellow);
+            color: var(--dark-gray);
+        }
+
+        .btn-secondary:hover, .btn-secondary:active {
+            background-color: var(--solar-orange);
+            color: var(--white);
+        }
+
+        .btn-small {
+            padding: 10px 16px;
+            font-size: 0.9rem;
+        }
+
+        .btn-icon {
+            font-size: 1.1rem;
+        }
+
+        /* Card Styles */
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--solar-orange);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            color: var(--dark-green);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .card-text {
+            color: var(--dark-gray);
+            margin-bottom: 20px;
+            flex-grow: 1;
+            font-size: 0.95rem;
+        }
+
+        /* Central Page Styles */
+        .central-content {
+            text-align: center;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .central-title {
+            font-size: 1.8rem;
+            color: var(--dark-green);
+            margin-bottom: 16px;
+        }
+
+        .central-subtitle {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .central-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .central-feature {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .central-feature:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .central-feature-icon {
+            font-size: 2rem;
+            color: var(--solar-orange);
+            margin-bottom: 12px;
+        }
+
+        .central-feature-title {
+            font-size: 1.1rem;
+            color: var(--dark-green);
+            margin-bottom: 8px;
+        }
+
+        .central-feature p {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+
+        /* Bottom Navigation Styles */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--white);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 15px;
+            transition: var(--transition);
+            cursor: pointer;
+            color: var(--medium-gray);
+            text-decoration: none;
+            flex: 1;
+            max-width: 80px;
+        }
+
+        .nav-item.active {
+            background-color: var(--light-cream);
+            color: var(--dark-green);
+        }
+
+        .nav-item:hover {
+            background-color: var(--light-cream);
+            color: var(--solar-orange);
+        }
+
+        .nav-icon {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Products Grid Styles */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .product-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 160px;
+            background-color: var(--light-gray);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--solar-orange);
+            font-size: 2.5rem;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            color: var(--dark-green);
+            margin-bottom: 8px;
+        }
+
+        .product-description {
+            color: var(--medium-gray);
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .product-price {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--solar-orange);
+            margin-bottom: 16px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .product-actions .btn {
+            flex: 1;
+        }
+
+        /* Notification Styles */
+        .notifications-container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .notification-item {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--solar-orange);
+            transition: var(--transition);
+        }
+
+        .notification-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-title {
+            font-size: 1.1rem;
+            color: var(--dark-green);
+            margin-bottom: 8px;
+        }
+
+        .notification-date {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        /* Service Cards Styles */
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 24px 0;
+        }
+
+        .service-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .service-card-icon {
+            font-size: 2.2rem;
+            color: var(--solar-orange);
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .service-card-title {
+            font-size: 1.2rem;
+            color: var(--dark-green);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .service-card-description {
+            color: var(--medium-gray);
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        /* Page Headers */
+        .service-header {
+            margin-bottom: 24px;
+        }
+
+        .service-title {
+            font-size: 1.6rem;
+            color: var(--dark-green);
+            margin-bottom: 8px;
+        }
+
+        .service-subtitle {
+            font-size: 1rem;
+            color: var(--medium-gray);
+            line-height: 1.5;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.4rem;
+            color: var(--dark-green);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--solar-orange);
+        }
+
+        .modal-body {
+            margin-bottom: 24px;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Cart Styles */
+        .cart-container {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: var(--white);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 1500;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-container.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-size: 1.4rem;
+            color: var(--dark-green);
+        }
+
+        .cart-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cart-close:hover {
+            color: var(--solar-orange);
+        }
+
+        .cart-items {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            background-color: var(--light-gray);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--solar-orange);
+            font-size: 1.5rem;
+            margin-right: 16px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-size: 1rem;
+            color: var(--dark-green);
+            margin-bottom: 4px;
+        }
+
+        .cart-item-price {
+            font-size: 1rem;
+            color: var(--solar-orange);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            background-color: var(--solar-orange);
+            color: var(--white);
+        }
+
+        .cart-item-quantity {
+            font-weight: 600;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--medium-gray);
+        }
+
+        .cart-empty-icon {
+            font-size: 3rem;
+            color: var(--light-gray);
+            margin-bottom: 16px;
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .toast.active {
+            opacity: 1;
+        }
+
+        .toast-icon {
+            font-size: 1.2rem;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .service-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .central-features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 100px;
+                height: 100px;
+            }
+
+            .woman-silhouette {
+                width: 55px;
+                height: 75px;
+            }
+
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .central-title {
+                font-size: 1.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-actions {
+                flex-direction: column;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Central Page -->
+    <section id="centralPage" class="page">
+        <div class="container">
+            <div class="logo-container"><br><br>
+                <div class="logo"><img src="a.jpg" alt="Logo" width="200"></div>
+            </div>
+                
+            </div>
+
+            <div class="central-content">
+                <h2 class="central-title">Welcome to Your Solar Dashboard</h2>
+                <p class="central-subtitle">
+                    Manage your solar energy solutions, track your system, and access our services all in one place.
+                </p>
+
+                <div class="central-features">
+                    <div class="central-feature">
+                        <div class="central-feature-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h3 class="central-feature-title">Energy Production</h3>
+                        <p>Track your solar energy production in real-time and monitor savings.</p>
+                    </div>
+
+                    <div class="central-feature">
+                        <div class="central-feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="central-feature-title">Performance Analytics</h3>
+                        <p>Detailed insights into your system's performance and efficiency.</p>
+                    </div>
+
+                    <div class="central-feature">
+                        <div class="central-feature-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="central-feature-title">Maintenance Alerts</h3>
+                        <p>Get notified when your system needs maintenance or cleaning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sales Page -->
+    <section id="salesPage" class="page">
+        <div class="container">
+            <div class="service-header">
+               <br><br>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://th.bing.com/th/id/OIP.6HKFPNgDUjftDiePrOFbuQHaGb?w=166&h=180&c=7&r=0&o=7&pid=1.7&rm=3" alt="Logo" width="200"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Premium Monocrystalline Panel</h3>
+                        <p class="product-description">High-efficiency 400W monocrystalline solar panel with 25-year warranty.</p>
+                        <div class="product-price">$249.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-small" onclick="showProductDetails(1)">
+                                <i class="fas fa-info-circle btn-icon"></i> Details
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="addToCart(1, 'Premium Monocrystalline Panel', 249.99)">
+                                <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="data:image/webp;base64,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" alt="Logo" width="200"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Solar Battery Storage</h3>
+                        <p class="product-description">10kWh lithium-ion battery for energy storage and backup power.</p>
+                        <div class="product-price">$1,299.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-small" onclick="showProductDetails(2)">
+                                <i class="fas fa-info-circle btn-icon"></i> Details
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="addToCart(2, 'Solar Battery Storage', 1299.99)">
+                                <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://th.bing.com/th/id/OIP.T18iDT6VfBt0DdL2WXSwGwHaEK?w=322&h=181&c=7&r=0&o=7&pid=1.7&rm=3" alt="Logo" width="200"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Smart Inverter System</h3>
+                        <p class="product-description">Advanced 5kW inverter with smart monitoring capabilities.</p>
+                        <div class="product-price">$899.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-small" onclick="showProductDetails(3)">
+                                <i class="fas fa-info-circle btn-icon"></i> Details
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="addToCart(3, 'Smart Inverter System', 899.99)">
+                                <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="data:image/webp;base64,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" alt="Logo" width="200"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">Mounting System Kit</h3>
+                        <p class="product-description">Complete racking system for roof or ground installation.</p>
+                        <div class="product-price">$349.99</div>
+                        <div class="product-actions">
+                            <button class="btn btn-small" onclick="showProductDetails(4)">
+                                <i class="fas fa-info-circle btn-icon"></i> Details
+                            </button>
+                            <button class="btn btn-secondary btn-small" onclick="addToCart(4, 'Mounting System Kit', 349.99)">
+                                <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notifications Page -->
+    <section id="notificationsPage" class="page">
+        <div class="container">
+           
+
+            <div class="notifications-container">
+                <div class="notification-item">
+                    <h3 class="notification-title">System Performance Report</h3>
+                    <div class="notification-date">June 15, 2023</div>
+                    <p>Your solar system produced 42.5 kWh yesterday, 15% above average for this time of year.</p>
+                </div>
+
+                <div class="notification-item">
+                    <h3 class="notification-title">Maintenance Reminder</h3>
+                    <div class="notification-date">June 10, 2023</div>
+                    <p>Your system is due for its quarterly maintenance check. Schedule an appointment now.</p>
+                </div>
+
+                <div class="notification-item">
+                    <h3 class="notification-title">New Product Available</h3>
+                    <div class="notification-date">June 5, 2023</div>
+                    <p>Check out our new high-efficiency solar panels with improved performance in low-light conditions.</p>
+                </div>
+
+                <div class="notification-item">
+                    <h3 class="notification-title">Energy Savings Update</h3>
+                    <div class="notification-date">May 28, 2023</div>
+                    <p>You've saved $245 on your energy bill this month thanks to your solar installation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Page -->
+    <section id="servicesPage" class="page">
+        <div class="container">
+            <div class="service-header"><br><br>
+                
+            </div>
+
+            <div class="service-cards">
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <h3 class="service-card-title">All Our Services</h3>
+                    <p class="service-card-description">
+                        Complete solar solutions including consultation, equipment, installation, and ongoing maintenance.
+                    </p>
+                    <button class="btn" onclick="showServiceDetails('all-services')">
+                        <i class="fas fa-info-circle btn-icon"></i> Learn More
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3 class="service-card-title">Pay for Equipment Only</h3>
+                    <p class="service-card-description">
+                        Purchase high-quality solar panels and equipment for your DIY installation or use with other providers.
+                    </p>
+                    <button class="btn" onclick="showServiceDetails('equipment-only')">
+                        <i class="fas fa-info-circle btn-icon"></i> Learn More
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="service-card-title">Installation Only</h3>
+                    <p class="service-card-description">
+                        Professional installation services for your existing solar equipment by our certified technicians.
+                    </p>
+                    <button class="btn" onclick="showServiceDetails('installation-only')">
+                        <i class="fas fa-info-circle btn-icon"></i> Learn More
+                    </button>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-card-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h3 class="service-card-title">Maintenance Only</h3>
+                    <p class="service-card-description">
+                        Regular maintenance, cleaning, and repair services to keep your solar system running at peak efficiency.
+                    </p>
+                    <button class="btn" onclick="showServiceDetails('maintenance-only')">
+                        <i class="fas fa-info-circle btn-icon"></i> Learn More
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-container" id="cartContainer">
+        <div class="cart-header">
+            <h3 class="cart-title">Your Cart</h3>
+            <button class="cart-close" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <!-- Cart items will be dynamically added here -->
+            <div class="cart-empty">
+                <div class="cart-empty-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <p>Your cart is empty</p>
+            </div>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">$0.00</span>
+            </div>
+            <button class="btn" onclick="checkout()">
+                <i class="fas fa-credit-card btn-icon"></i> Checkout
+            </button>
+        </div>
+    </div>
+
+    <!-- Product Details Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="productModalTitle">Product Details</h3>
+                <button class="modal-close" onclick="closeModal('productModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="productModalBody">
+                <!-- Product details will be dynamically added here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('productModal')">
+                    <i class="fas fa-times btn-icon"></i> Close
+                </button>
+                <button class="btn" id="productModalAddBtn">
+                    <i class="fas fa-cart-plus btn-icon"></i> Add to Cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Details Modal -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="serviceModalTitle">Service Details</h3>
+                <button class="modal-close" onclick="closeModal('serviceModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="serviceModalBody">
+                <!-- Service details will be dynamically added here -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('serviceModal')">
+                    <i class="fas fa-times btn-icon"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle toast-icon"></i>
+        <span id="toastMessage">Item added to cart!</span>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" data-page="centralPage">
+            <div class="nav-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item" data-page="salesPage">
+            <div class="nav-icon">
+                <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="nav-label">Sales</div>
+        </div>
+        <div class="nav-item" data-page="notificationsPage">
+            <div class="nav-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="nav-label">Notifications</div>
+        </div>
+        <div class="nav-item" data-page="servicesPage">
+            <div class="nav-icon">
+                <i class="fas fa-concierge-bell"></i>
+            </div>
+            <div class="nav-label">Services</div>
+        </div>
+    </div>
+
+    <script>
+        // Cart data
+        let cart = [];
+        
+        // Product details data
+        const productDetails = {
+            1: {
+                title: "Premium Monocrystalline Panel",
+                price: 249.99,
+                description: "High-efficiency 400W monocrystalline solar panel with 25-year warranty.",
+                features: [
+                    "400W output power",
+                    "Monocrystalline silicon cells",
+                    "25-year performance warranty",
+                    "High efficiency in low-light conditions",
+                    "Corrosion-resistant aluminum frame"
+                ],
+                specifications: {
+                    "Dimensions": "1700 x 1000 x 35 mm",
+                    "Weight": "18.5 kg",
+                    "Cell Type": "Monocrystalline",
+                    "Efficiency": "21.5%"
+                }
+            },
+            2: {
+                title: "Solar Battery Storage",
+                price: 1299.99,
+                description: "10kWh lithium-ion battery for energy storage and backup power.",
+                features: [
+                    "10kWh storage capacity",
+                    "Lithium-ion technology",
+                    "10-year warranty",
+                    "Smart energy management",
+                    "Expandable system"
+                ],
+                specifications: {
+                    "Capacity": "10 kWh",
+                    "Chemistry": "Lithium-ion",
+                    "Warranty": "10 years",
+                    "Dimensions": "600 x 400 x 200 mm",
+                    "Weight": "75 kg"
+                }
+            },
+            3: {
+                title: "Smart Inverter System",
+                price: 899.99,
+                description: "Advanced 5kW inverter with smart monitoring capabilities.",
+                features: [
+                    "5kW power output",
+                    "Smart monitoring via app",
+                    "Grid-tie functionality",
+                    "Efficiency up to 98%",
+                    "Lightning and surge protection"
+                ],
+                specifications: {
+                    "Power Output": "5 kW",
+                    "Efficiency": "Up to 98%",
+                    "Input Voltage": "150-550 V DC",
+                    "Output Voltage": "230 V AC",
+                    "Weight": "15 kg"
+                }
+            },
+            4: {
+                title: "Mounting System Kit",
+                price: 349.99,
+                description: "Complete racking system for roof or ground installation.",
+                features: [
+                    "Universal compatibility",
+                    "Corrosion-resistant materials",
+                    "Easy installation",
+                    "Ground and roof options",
+                    "Adjustable tilt angles"
+                ],
+                specifications: {
+                    "Material": "Aluminum alloy",
+                    "Finish": "Anodized",
+                    "Max Load": "60 kg per panel",
+                    "Warranty": "10 years",
+                    "Compatibility": "Most panel types"
+                }
+            }
+        };
+        
+       
+
+        // Function to show selected page and hide others
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show the selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav item
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('data-page') === pageId) {
+                    item.classList.add('active');
+                }
+            });
+            
+            // Scroll to top of page
+            window.scrollTo(0, 0);
+        }
+
+        // Function to show product details
+        function showProductDetails(productId) {
+            const product = productDetails[productId];
+            if (!product) return;
+            
+            document.getElementById('productModalTitle').textContent = product.title;
+            
+            let modalBody = `
+                <div class="product-price" style="font-size: 1.4rem; margin-bottom: 16px;">$${product.price.toFixed(2)}</div>
+                <p style="margin-bottom: 20px;">${product.description}</p>
+                
+                <h4 style="color: var(--dark-green); margin-bottom: 12px;">Key Features</h4>
+                <ul style="margin-bottom: 20px; padding-left: 20px;">
+            `;
+            
+            product.features.forEach(feature => {
+                modalBody += `<li style="margin-bottom: 8px;">${feature}</li>`;
+            });
+            
+            modalBody += `</ul>
+                
+                <h4 style="color: var(--dark-green); margin-bottom: 12px;">Specifications</h4>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 20px;">`;
+            
+            for (const [key, value] of Object.entries(product.specifications)) {
+                modalBody += `
+                    <div style="font-weight: 600;">${key}:</div>
+                    <div>${value}</div>
+                `;
+            }
+            
+            modalBody += `</div>`;
+            
+            document.getElementById('productModalBody').innerHTML = modalBody;
+            
+            // Update add to cart button
+            const addBtn = document.getElementById('productModalAddBtn');
+            addBtn.onclick = function() {
+                addToCart(productId, product.title, product.price);
+                closeModal('productModal');
+            };
+            
+            // Show modal
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        // Function to show service details
+        function showServiceDetails(serviceId) {
+            const service = serviceDetails[serviceId];
+            if (!service) return;
+            
+            document.getElementById('serviceModalTitle').textContent = service.title;
+            
+            let modalBody = `
+                <p style="margin-bottom: 20px;">${service.description}</p>
+                
+                <h4 style="color: var(--dark-green); margin-bottom: 12px;">What's Included</h4>
+                <ul style="margin-bottom: 20px; padding-left: 20px;">
+            `;
+            
+            service.details.forEach(detail => {
+                modalBody += `<li style="margin-bottom: 8px;">${detail}</li>`;
+            });
+            
+            modalBody += `</ul>
+                
+                <h4 style="color: var(--dark-green); margin-bottom: 12px;">Pricing</h4>
+                <p>${service.pricing}</p>`;
+            
+            document.getElementById('serviceModalBody').innerHTML = modalBody;
+            
+            // Show modal
+            document.getElementById('serviceModal').classList.add('active');
+        }
+
+        // Function to close modal
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Function to add item to cart
+        function addToCart(productId, productName, productPrice) {
+            // Check if product already in cart
+            const existingItem = cart.find(item => item.id === productId);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1
+                });
+            }
+            
+            // Update cart UI
+            updateCartUI();
+            
+            // Show toast notification
+            showToast(`${productName} added to cart!`);
+        }
+
+        // Function to update cart UI
+        function updateCartUI() {
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            
+            // Clear cart items
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="cart-empty">
+                        <div class="cart-empty-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <p>Your cart is empty</p>
+                    </div>
+                `;
+                cartTotal.textContent = '$0.00';
+                return;
+            }
+            
+            // Calculate total
+            let total = 0;
+            
+            // Add each item to cart
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-image">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-title">${item.name}</h4>
+                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        <div class="cart-item-actions">
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, -1)">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="cart-item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn" onclick="updateQuantity(${item.id}, 1)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="quantity-btn" onclick="removeFromCart(${item.id})" style="margin-left: auto;">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotal.textContent = `$${total.toFixed(2)}`;
+        }
+
+        // Function to update item quantity in cart
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            
+            if (item) {
+                item.quantity += change;
+                
+                // Remove item if quantity is 0 or less
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                    return;
+                }
+                
+                updateCartUI();
+            }
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartUI();
+            
+            // Show toast notification
+            showToast('Item removed from cart');
+        }
+
+        // Function to toggle cart visibility
+        function toggleCart() {
+            document.getElementById('cartContainer').classList.toggle('active');
+        }
+
+        // Function to show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = message;
+            toast.classList.add('active');
+            
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        // Function to handle checkout
+        function checkout() {
+            if (cart.length === 0) {
+                showToast('Your cart is empty');
+                return;
+            }
+            
+            // In a real app, this would redirect to a checkout page
+            // For this demo, we'll just show a confirmation
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Thank you for your order!\n\nTotal: $${total.toFixed(2)}\n\nYou will be redirected to the payment page.`);
+            
+            // Clear cart
+            cart = [];
+            updateCartUI();
+            toggleCart();
+        }
+
+        // Initialize the page - ensure the central page is shown
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('centralPage');
+            
+            // Add event listeners to nav items
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+            
+            // Close modals when clicking outside
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
