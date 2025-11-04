@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SolarBySisters - Formation Complète</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --dark-green: #0F3E2A;
+            --solar-orange: #F47C20;
+            --golden-yellow: #F2B134;
+            --light-beige: #F8F0DF;
+            --white: #FFFFFF;
+            --light-gray: #F5F5F5;
+            --dark-gray: #333333;
+            --medium-gray: #777777;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-beige);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 80px; /* Espace pour la navigation */
+        }
+        
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-beige);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            position: relative;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .woman-silhouette {
+            width: 25px;
+            height: 35px;
+            background-color: var(--dark-green);
+            clip-path: polygon(50% 0%, 20% 100%, 80% 100%);
+            position: relative;
+        }
+        
+        .woman-clothing {
+            width: 20px;
+            height: 18px;
+            background-color: var(--golden-yellow);
+            position: absolute;
+            top: 17px;
+            left: 10px;
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .sun {
+            width: 15px;
+            height: 15px;
+            background-color: var(--solar-orange);
+            border-radius: 50%;
+            position: absolute;
+            top: 7px;
+            left: 12px;
+            box-shadow: 0 0 0 3px rgba(244, 124, 32, 0.2);
+        }
+        
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark-green);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--solar-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--solar-orange), var(--golden-yellow));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .welcome-banner h1 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .progress-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--solar-orange);
+            width: 65%; /* Exemple de progression */
+        }
+        
+        .progress-text {
+            font-size: 0.9rem;
+            color: var(--medium-gray);
+        }
+        
+        .modules-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .module-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .module-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--light-beige);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--solar-orange);
+            font-size: 20px;
+        }
+        
+        .module-info {
+            flex: 1;
+        }
+        
+        .module-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-green);
+        }
+        
+        .module-status {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+        
+        .locked {
+            opacity: 0.6;
+        }
+        
+        .quiz-container {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .quiz-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-beige);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--solar-orange);
+        }
+        
+        .quiz-title {
+            font-weight: 600;
+            color: var(--dark-green);
+        }
+        
+        .quiz-question {
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .quiz-option {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .quiz-option:hover {
+            background-color: var(--light-beige);
+        }
+        
+        .quiz-option.selected {
+            background-color: var(--solar-orange);
+            color: white;
+            border-color: var(--solar-orange);
+        }
+        
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--solar-orange);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: var(--dark-green);
+            color: white;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--solar-orange);
+            color: var(--solar-orange);
+        }
+        
+        .notification-item {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            background-color: var(--light-beige);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--solar-orange);
+        }
+        
+        .notification-content {
+            flex: 1;
+        }
+        
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--dark-green);
+        }
+        
+        .notification-time {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+        
+        .profile-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--solar-orange);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            margin: 0 auto 15px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-green);
+            margin-bottom: 5px;
+        }
+        
+        .profile-role {
+            color: var(--medium-gray);
+            margin-bottom: 15px;
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--solar-orange);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--medium-gray);
+        }
+        
+        .profile-menu {
+            background-color: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+        }
+        
+        .menu-item {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+        
+        .menu-item:hover {
+            background-color: var(--light-beige);
+        }
+        
+        .menu-icon {
+            width: 30px;
+            margin-right: 15px;
+            color: var(--solar-orange);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            color: var(--medium-gray);
+        }
+        
+        .nav-item.active {
+            color: var(--solar-orange);
+        }
+        
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .nav-label {
+            font-size: 0.7rem;
+        }
+        
+        .content-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark-green);
+            margin-bottom: 20px;
+        }
+        
+        .lesson-content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        
+        .lesson-video {
+            width: 100%;
+            height: 200px;
+            background-color: var(--light-gray);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--medium-gray);
+        }
+        
+        .lesson-text {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .lesson-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 750px;
+            }
+            
+            .modules-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <img src="a.png" width=100>
+                </div>
+                
+            </div>
+            <div class="user-avatar">AS</div>
+        </header>
+        
+        <!-- Page d'accueil / Formation -->
+        <div id="home-page" class="page active">
+            <div class="welcome-banner">
+                <h1>Welcome, Aminata!</h1>
+                <p>Continue your solar installation journey</p>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-header">
+                    <h3>Your Progress</h3>
+                    <span>65%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <p class="progress-text">Completed 7 of 12 modules</p>
+            </div>
+            
+            <h2 class="content-title">Your Learning Path</h2>
+            <div class="modules-container">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Solar Energy Fundamentals</div>
+                        <div class="module-status">Completed</div>
+                    </div>
+                    <i class="fas fa-check-circle" style="color: var(--solar-orange);"></i>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">PV System Components</div>
+                        <div class="module-status">Completed</div>
+                    </div>
+                    <i class="fas fa-check-circle" style="color: var(--solar-orange);"></i>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Installation Techniques</div>
+                        <div class="module-status">In Progress</div>
+                    </div>
+                    <i class="fas fa-play-circle" style="color: var(--solar-orange);"></i>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Electrical Safety</div>
+                        <div class="module-status">Next</div>
+                    </div>
+                    <i class="fas fa-lock-open" style="color: var(--medium-gray);"></i>
+                </div>
+                
+                <div class="module-card locked">
+                    <div class="module-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Residential Systems</div>
+                        <div class="module-status">Locked</div>
+                    </div>
+                    <i class="fas fa-lock" style="color: var(--medium-gray);"></i>
+                </div>
+                
+                <div class="module-card locked">
+                    <div class="module-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Commercial Systems</div>
+                        <div class="module-status">Locked</div>
+                    </div>
+                    <i class="fas fa-lock" style="color: var(--medium-gray);"></i>
+                </div>
+            </div>
+            
+            <h2 class="content-title">Continue Learning</h2>
+            <div class="lesson-content">
+                <div class="lesson-video">
+                    <i class="fas fa-play-circle" style="font-size: 3rem; color: var(--solar-orange);"></i>
+                </div>
+                <h3>Roof Mounting Techniques</h3>
+                <p class="lesson-text">
+                    In this lesson, you'll learn the proper techniques for mounting solar panels on different roof types, including safety precautions and best practices for ensuring a secure installation.
+                </p>
+                <div class="lesson-actions">
+                    <button class="btn btn-outline">Save for Later</button>
+                    <button class="btn btn-primary">Continue</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page des Quiz -->
+        <div id="quiz-page" class="page">
+            <h2 class="content-title">Assessment Quiz</h2>
+            
+            <div class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div class="quiz-title">Solar Panel Installation</div>
+                </div>
+                
+                <div class="quiz-question">
+                    <p>What is the minimum recommended distance between solar panels and roof edges for safety and maintenance access?</p>
+                </div>
+                
+                <div class="quiz-options">
+                    <div class="quiz-option">6 inches</div>
+                    <div class="quiz-option">12 inches</div>
+                    <div class="quiz-option selected">18 inches</div>
+                    <div class="quiz-option">24 inches</div>
+                </div>
+                
+                <div class="quiz-actions">
+                    <button class="btn btn-outline">Previous</button>
+                    <button class="btn btn-primary">Next Question</button>
+                </div>
+            </div>
+            
+            <h2 class="content-title">Your Quiz Results</h2>
+            
+            <div class="modules-container">
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Fundamentals Quiz</div>
+                        <div class="module-status">Score: 85%</div>
+                    </div>
+                    <i class="fas fa-award" style="color: var(--golden-yellow);"></i>
+                </div>
+                
+                <div class="module-card">
+                    <div class="module-icon">
+                        <i class="fas fa-solar-panel"></i>
+                    </div>
+                    <div class="module-info">
+                        <div class="module-title">Components Quiz</div>
+                        <div class="module-status">Score: 92%</div>
+                    </div>
+                    <i class="fas fa-award" style="color: var(--golden-yellow);"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page des Notifications -->
+        <div id="notifications-page" class="page">
+            <h2 class="content-title">Notifications</h2>
+            
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">New Module Available</div>
+                    <p>Electrical Safety module is now unlocked for you to start learning.</p>
+                    <div class="notification-time">2 hours ago</div>
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Community Event</div>
+                    <p>Join the Solar Sisters meetup this Saturday to network with other women in solar.</p>
+                    <div class="notification-time">1 day ago</div>
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">Achievement Unlocked</div>
+                    <p>Congratulations! You've completed the PV System Components module.</p>
+                    <div class="notification-time">3 days ago</div>
+                </div>
+            </div>
+            
+            <div class="notification-item">
+                <div class="notification-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="notification-content">
+                    <div class="notification-title">New Resource Available</div>
+                    <p>Check out the new installation checklist in the Resources section.</p>
+                    <div class="notification-time">1 week ago</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Page du Profil -->
+        <div id="profile-page" class="page">
+            <div class="profile-header">
+                <div class="profile-avatar">AS</div>
+                <div class="profile-name">Aminata Sow</div>
+                <div class="profile-role">Solar Installation Trainee</div>
+                <button class="btn btn-outline">Edit Profile</button>
+            </div>
+            
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <div class="stat-value">7</div>
+                    <div class="stat-label">Modules Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Average Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Community Points</div>
+                </div>
+            </div>
+            
+            <div class="profile-menu">
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div>Account Settings</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div>My Certificates</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-download"></i>
+                    </div>
+                    <div>Download Resources</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div>Community</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <div>Preferences</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-question-circle"></i>
+                    </div>
+                    <div>Help & Support</div>
+                </div>
+                <div class="menu-item">
+                    <div class="menu-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <div>Logout</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Navigation en bas -->
+    <div class="bottom-nav">
+        <div class="nav-item active" data-page="home-page">
+            <div class="nav-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item" data-page="quiz-page">
+            <div class="nav-icon">
+                <i class="fas fa-pencil-alt"></i>
+            </div>
+            <div class="nav-label">Quiz</div>
+        </div>
+        <div class="nav-item" data-page="notifications-page">
+            <div class="nav-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <div class="nav-label">Alerts</div>
+        </div>
+        <div class="nav-item" data-page="profile-page">
+            <div class="nav-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div class="nav-label">Profile</div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation entre les pages
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Retirer la classe active de tous les éléments de navigation
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                
+                // Ajouter la classe active à l'élément cliqué
+                this.classList.add('active');
+                
+                // Masquer toutes les pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Afficher la page correspondante
+                const pageId = this.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+        
+        // Sélection des options de quiz
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // Retirer la classe selected de toutes les options
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Ajouter la classe selected à l'option cliquée
+                this.classList.add('selected');
+            });
+        });
+        
+        // Simulation de progression (pour la démonstration)
+        function updateProgress() {
+            const progressFill = document.querySelector('.progress-fill');
+            let width = 65;
+            
+            setInterval(() => {
+                width = (width + 1) % 100;
+                progressFill.style.width = width + '%';
+            }, 3000);
+        }
+        
+        // Démarrer la simulation de progression
+        updateProgress();
+    </script>
+</body>
+</html>
