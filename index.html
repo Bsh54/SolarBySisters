@@ -226,6 +226,66 @@
             font-size: 0.9rem;
         }
 
+        /* Prototype Notice Styles */
+        .prototype-notice {
+            background-color: var(--dark-green);
+            color: var(--white);
+            padding: 25px 20px;
+            margin-top: 40px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .prototype-notice h3 {
+            color: var(--golden-yellow);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .prototype-notice p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .link-item:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+            transform: translateX(5px);
+        }
+
+        .link-item a {
+            color: var(--golden-yellow);
+            text-decoration: none;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+
+        .link-description {
+            font-size: 0.9rem;
+            color: var(--light-cream);
+            font-style: italic;
+        }
+
         /* Animations */
         @keyframes pulse {
             0% {
@@ -276,6 +336,16 @@
             .cta-button {
                 width: 48%;
             }
+            
+            .links-list {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+            
+            .link-item {
+                width: 48%;
+            }
         }
 
         @media (min-width: 1024px) {
@@ -306,7 +376,7 @@
         <div class="container">
             <div class="logo-container"><br><br>
                 <div class="logo">
-                    <img src="a.png" width="300"></img>
+                    <img src="a.png" width="300" alt="SolarBySisters Logo">
                 </div>
                 
             </div>
@@ -327,6 +397,42 @@
                 <a href="welcome.html" class="cta-button button-2">
                     Solar Installation Training for Women – Develop your skills and create a positive impact. Discover the program.
                 </a>
+            </div><br><br><br>
+            
+            <!-- Prototype Notice Section -->
+            <div class="prototype-notice">
+                <h3>Prototype Notice</h3>
+                <p>This website is currently a prototype for demonstration purposes. The content and functionality are still in development. Below are all the available pages you can explore:</p>
+                
+                <div class="links-list">
+                    <div class="link-item">
+                        <a href="index.html">Home Page</a>
+                        <span class="link-description">Current page</span>
+                    </div>
+                    <div class="link-item">
+                        <a href="services.html">Services Questions</a>
+                        <span class="link-description">Questions to clearly understand our clients’ expectations
+</span>
+                    </div>
+                    <div class="link-item">
+                        <a href="welcome.html">Training  Questions </a>
+                        <span class="link-description">Basic questions to ensure only women can access this part of the site.
+ </span>
+                    </div>
+                    <div class="link-item">
+                        <a href="https://solarbysisters.onrender.com/home.html">Client dashboard
+</a>
+                        <span class="link-description">Client dashboard
+</span>
+                    </div>
+                    <div class="link-item">
+                        <a href="https://solarbysisters.onrender.com/welcomehome.html">Women Training Dashboard </a>
+                        <span class="link-description">Training dashboard
+</span>
+                    </div>
+		     
+                    
+                </div>
             </div>
         </div>
     </main>
